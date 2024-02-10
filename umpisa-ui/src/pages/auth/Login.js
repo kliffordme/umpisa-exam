@@ -22,7 +22,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/user/login', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_ROUTE}api/user/login`, formData);
       const { token } = response.data;
       localStorage.setItem('token', token);
       navigate('/home');

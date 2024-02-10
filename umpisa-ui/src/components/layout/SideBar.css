@@ -1,0 +1,68 @@
+/* Sidebar.css */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px; /* Adjust width as needed */
+    height: 100vh;
+    background-color: rgb(154, 211, 231); /* Light blue background */
+    padding: 20px;
+  }
+
+  .sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(71, 71, 131); /* Blue title color */
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px 20px; /* Adjust padding for better appearance */
+    background-color: lightblue; /* Add background color for better visibility */
+    color: black;
+    font-weight: bold; /* Ensure the text is bold for better readability */
+    border-radius: 0 0 0 10px; /* Add border radius to the top left corner for a rounded appearance */
+    z-index: 1000; /* Ensure the user element is above other content */
+  }
+
+  .sidebar-menu li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-menu li a {
+    text-decoration: none;
+    color: rgb(159, 159, 212); /* White menu item text color */
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .sidebar-menu li a:hover {
+    color: black; /* Light blue text color on hover */
+  }
+
+  .logout{
+    color: red;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    padding-left: 10px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  @media screen and (max-width: 350px) {
+    /* Add styles specific to small screens here */
+    .sidebar{
+        display: none;
+    }
+  }

@@ -1,0 +1,10 @@
+.cards-container{
+    display: flex;
+}
+
+.analytics-cards{
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    height: 110px
+}

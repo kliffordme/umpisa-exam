@@ -1,0 +1,12 @@
+.content{
+    position: relative;
+    left: 320px;
+    top: 50px;
+}
+
+@media screen and (max-width: 350px) {
+    /* Add styles specific to small screens here */
+    .content{
+        left: 0;
+    }
+  }
