@@ -6,18 +6,22 @@ import { ReactComponent as UpdateLogo } from '../../assets/icons/update.svg';
 import { ReactComponent as DeleteLogo } from '../../assets/icons/delete.svg';
 import { Pagination } from '../layout/Pagination';
 import { CustomModal } from '../layout/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBooks } from '../../redux/selectors/selectors';
+import { getAllBooks } from '../../redux/actions/action';
 
 
 export const Books = () => {
+  const books = useSelector(selectBooks)
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     rating: '',
     image: null
   });
-  const [data, setData] = useState([])
   const [showModal, setShowModal] = useState(false); // State variable to manage modal visibility
   const [modalType, setModalType] = useState(0); 
+  const [data, setData] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(5)
@@ -26,21 +30,17 @@ export const Books = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentPost = data.slice(indexOfFirstPost, indexOfLastPost)
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const dispatch = useDispatch()
 
   useEffect(()=>{
-    getAllBooks()
-  },[])
+    dispatch(getAllBooks())
+  }, [])
 
-  const getAllBooks = async() =>{
-    try {
-      const {data} = await axios.get('http://localhost:3000/api/books/all')
-      setData(data.books)
-      console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  useEffect(()=>{
+    setData(books)
+  }, [books])
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,8 +68,6 @@ export const Books = () => {
       });
       // Reset form fields after successful upload
       setFormData({ title: '', author: '', rating: '', image: null });
-      getAllBooks()
-      alert('Book uploaded successfully!');
     } catch (error) {
       console.error('Error uploading book:', error);
       alert('Error uploading book. Please try again.');
@@ -174,7 +172,7 @@ export const Books = () => {
             </div>
           </div>
         )) : <div className='fw-bold text-info mt-auto'>No books for now, try uploading.</div>}
-          <CustomModal showModal={showModal} handleCloseModal={handleCloseModal} modalType={modalType} getAllBooks={getAllBooks}/>
+          <CustomModal showModal={showModal} handleCloseModal={handleCloseModal} modalType={modalType} data={data}/>
         <Pagination postsPerPage={postsPerPage} totalPosts={data.length} paginate={paginate}/>
       </div>
     </div>

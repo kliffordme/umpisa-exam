@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'; // Import useHistory hook
 const Register = () => {
   const [formData, setFormData] = useState({
     email: '',
+    userName: '',
     password: '',
     passwordConfirm: '',
     mobile: '',
@@ -83,6 +84,18 @@ const Register = () => {
                     required
                   />
                   {emailError && <small className="text-danger">{emailError}</small>} {/* Show email error message */}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="userName">User Name:</label>
+                  <input
+                    id="userName"
+                    type="text"
+                    name="userName"
+                    className="form-control"
+                    value={formData.userName}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">Password:</label>

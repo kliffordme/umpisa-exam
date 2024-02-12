@@ -3,13 +3,13 @@
 }
 
 .book-container{
-    width: 25vw;
-    height: 60vh;
+    width: 50%;
+    height: 100%;
     overflow-x: auto; /* Enable horizontal scrolling when content exceeds container width */
 }
 
 .upload-container{
-    height: 50vh;
+    height: 50%;
 }
 
 .image{

@@ -4,24 +4,27 @@ import { ReactComponent as Books } from '../../assets/icons/book.svg';
 import { ReactComponent as Users } from '../../assets/icons/users.svg';
 import { ReactComponent as Authors } from '../../assets/icons/author.svg';
 import { ReactComponent as Downloads } from '../../assets/icons/download.svg';
-
-const featuredBooks = [
-  {
-    title: 'Lord Of The Rings',
-    rating: '5/5',
-    author: 'James Reid'
-  },
-]
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBooks, setBooksData } from '../../redux/actions/action';
+import axios from 'axios'
+import { selectBooks } from '../../redux/selectors/selectors';
 
 export const Home = () => {
+  const dispatch = useDispatch()
+  const books = useSelector(selectBooks)
 
-  const [books, setBooks] = useState([])
-
+  const [data, setData] = useState([])
 
   useEffect(()=>{
-    setBooks(featuredBooks)
-  }, [])
+    dispatch(getAllBooks())
+  },[])
+
+  useEffect(()=>{
+    setData(books)
+  }, [books])
+
+  const currentPost = data.slice(0, 4)
+
 
   return (
     <div className="container">
@@ -34,7 +37,7 @@ export const Home = () => {
                   Total Books: 
                 </span>
                 <br/>
-                162
+                {books.length}
               </div>
               <Books style={{ width: '50px', height: '50px' }} />
             </div>
@@ -87,18 +90,42 @@ export const Home = () => {
         <span className='title fw-bold text-info'>
           Featured Books
         </span>
-        <div className='m-3'>
-          <div className='featured-container shadow bg-white rounded'>
-            <div className='p-3'>
-              {books.map((book)=>(
-                <div>
-                  <div className='featured-card'>Title: {book.title}</div>
-                  <div className='featured-card'>Author: {book.author}</div>
-                  <div className='featured-card'>Rating: {book.rating}</div>
-                </div>
-              ))}
+        <div className='d-flex'>
+        {currentPost.map((book)=> (
+          <div className='m-3'>
+            <div className='featured-container shadow bg-white rounded'>
+              <div className='p-3'>
+                  <div className='d-flex'>
+                    <img src={`http://localhost:3000/${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
+                    <div>
+                      <div className='featured-card'> {book.title}</div>
+                      <div className='featured-card'>Rating: {book.rating}</div>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
+        ))}
+        </div>
+        <span className='title fw-bold text-info'>
+          New Books
+        </span>
+        <div className='d-flex'>
+        {currentPost.map((book)=> (
+          <div className='m-3'>
+            <div className='featured-container shadow bg-white rounded'>
+              <div className='p-3'>
+                  <div className='d-flex'>
+                    <img src={`http://localhost:3000/${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
+                    <div>
+                      <div className='featured-card'> {book.title}</div>
+                      <div className='featured-card'>Rating: {book.rating}</div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        ))}
         </div>
       </div>
     </div>

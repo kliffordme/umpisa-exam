@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from React Bootstrap
 import Form from 'react-bootstrap/Form';
 import axios from 'axios'
 
-export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks}) => {
+export const CustomModal = ({showModal, handleCloseModal, modalType, data}) => {
 
     const { id, type } = modalType;
 
@@ -14,6 +14,20 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
         image: null
       });
     
+    useEffect(() => {
+        // Find the object with the matching id from the data array
+        const selectedBook = data.find(book => book._id === id);
+        // If the object is found, set its values as default for form inputs
+        if (selectedBook) {
+            setFormData({
+                title: selectedBook.title,
+                author: selectedBook.author,
+                rating: selectedBook.rating,
+                image: null // Reset image to null as it should not be displayed as default
+            });
+      }
+    }, [showModal]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -24,15 +38,33 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
       };
     
 
-    const handleUpdateBook = (e) => {
+    const handleUpdateBook = async(e) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('author', formData.author);
+        formDataToSend.append('rating', formData.rating);
+        formDataToSend.append('image', formData.image);
+    
+        try {
+          await axios.put(`${process.env.REACT_APP_API_ROUTE}api/books/${id}/update`, formDataToSend, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          // Reset form fields after successful upload
+          setFormData({ title: '', author: '', rating: '', image: null });
+          handleCloseModal()
+        } catch (error) {
+          console.error('Error updating book:', error);
+          alert('Error updating book. Please try again.');
+        }
     }
 
     const handleDeleteBook = async() => {
         try {
-            const data = await axios.delete(`http://localhost:3000/api/books/${id}/delete`)
+            const data = await axios.put(`http://localhost:3000/api/books/${id}/delete`)
             console.log(data)
-            getAllBooks()
             handleCloseModal()
         } catch (error) {
             console.log(error)
@@ -57,7 +89,6 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -68,7 +99,6 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
                 name="author"
                 value={formData.author}
                 onChange={handleInputChange}
-                required
               />
             </div>
             <div className="form-group">
@@ -81,7 +111,6 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
                 onChange={handleInputChange}
                 min="0"
                 max="5"
-                required
               />
             </div>
             <div className="form-group">
@@ -94,7 +123,6 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, getAllBooks
                 name="image"
                 onChange={handleFileChange}
                 accept="image/*"
-                required
                 />
                 </Form.Group>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
@@ -75,6 +75,7 @@ const Login = () => {
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
                 <button type="submit" className="btn btn-primary btn-block mt-2">Login</button>
+                <Link to="/register" className="btn btn-link mt-2">Register</Link>
               </form>
             </div>
           </div>

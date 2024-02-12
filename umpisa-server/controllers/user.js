@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.createUser = async (req, res) => {
   try {
-    const { email, password, passwordConfirm, mobile, address } = req.body;
+    const { email, userName, password, passwordConfirm, mobile, address } = req.body;
 
     // Check if the email already exists
     const existingUser = await User.findOne({ email });
@@ -16,11 +16,11 @@ exports.createUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10); // Use bcrypt to hash the password with a salt round of 10
 
     // Create a new user document with the hashed password
-    const newUser = new User({ email, password: hashedPassword, passwordConfirm, mobile, address });
+    const newUser = new User({ email, userName, password: hashedPassword, passwordConfirm, mobile, address });
     await newUser.save();
 
     // Generate JWT token
-    const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key and set expiry time
+    const token = jwt.sign({ email: newUser.email, userName: newUser.userName }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Change 'your-secret-key' to your actual secret key and set expiry time
 
     res.json({ success: true, message: 'User created successfully', token }); // Include token in the response
   } catch (error) {
@@ -46,7 +46,7 @@ exports.loginUser = async (req, res) => {
       }
   
       // Generate JWT token
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      const token = jwt.sign({ email: user.email, userName: user.userName }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
   
       res.json({ success: true, token });
     } catch (error) {

@@ -48,11 +48,6 @@ exports.updateBook = async (req, res) => {
     const { title, author, rating } = req.body;
     const image = req.file; // Assuming you're using multer for file upload
 
-    // Check if the required fields are present
-    if (!title || !author || !rating || !image) {
-      return res.status(400).json({ error: 'Please provide all required fields' });
-    }
-
     // Find the book by ID
     const book = await Book.findById(id);
 
@@ -62,10 +57,10 @@ exports.updateBook = async (req, res) => {
     }
 
     // Update book details
-    book.title = title;
-    book.author = author;
-    book.rating = rating;
-    book.image = image.path;
+    book.title = title || book.title;
+    book.author = author || book.author;
+    book.rating = rating || book.rating;
+    book.image = image ? image.path : book.image;
 
     // Save the updated book
     await book.save();
