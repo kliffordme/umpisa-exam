@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from React Bootstrap
 import Form from 'react-bootstrap/Form';
 import axios from 'axios'
+import { useDispatch } from 'react-redux';
+import { getAllBooks } from '../../redux/actions/action';
 
 export const CustomModal = ({showModal, handleCloseModal, modalType, data}) => {
-
+    const dispatch = useDispatch()
     const { id, type } = modalType;
 
     const [formData, setFormData] = useState({
@@ -54,6 +56,7 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, data}) => {
           });
           // Reset form fields after successful upload
           setFormData({ title: '', author: '', rating: '', image: null });
+          dispatch(getAllBooks())
           handleCloseModal()
         } catch (error) {
           console.error('Error updating book:', error);
@@ -63,8 +66,8 @@ export const CustomModal = ({showModal, handleCloseModal, modalType, data}) => {
 
     const handleDeleteBook = async() => {
         try {
-            const data = await axios.put(`http://localhost:3000/api/books/${id}/delete`)
-            console.log(data)
+            const data = await axios.put(`${process.env.REACT_APP_API_ROUTE}api/books/${id}/delete`)
+            dispatch(getAllBooks())
             handleCloseModal()
         } catch (error) {
             console.log(error)

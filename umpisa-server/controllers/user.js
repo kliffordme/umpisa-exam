@@ -53,3 +53,14 @@ exports.loginUser = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  exports.getAllUsersLength = async (req, res) => {
+    try {
+      // Find all users and get the count
+      const userCount = await User.countDocuments();
+      
+      res.json({ success: true, count: userCount });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };

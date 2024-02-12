@@ -61,12 +61,13 @@ export const Books = () => {
     formDataToSend.append('image', formData.image);
 
     try {
-      await axios.post('http://localhost:3000/api/books/create', formDataToSend, {
+      await axios.post(`${process.env.REACT_APP_API_ROUTE}api/books/create`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       // Reset form fields after successful upload
+      dispatch(getAllBooks())
       setFormData({ title: '', author: '', rating: '', image: null });
     } catch (error) {
       console.error('Error uploading book:', error);
@@ -151,7 +152,7 @@ export const Books = () => {
         </div>
         {data.length > 0 ? currentPost.map((book)=>(
           <div className='shadow bg-white rounded p-2 d-flex justify-content-between m-1'>
-            <img src={`http://localhost:3000/${book.image}`} className="image"  alt={book.title} />
+            <img src={`${process.env.REACT_APP_API_ROUTE}${book.image}`} className="image"  alt={book.title} />
             <span className='fw-bold text-info mt-auto'>{book.title}</span>
             <span className='fw-bold text-info mt-auto'>{book.rating}/5</span>
             <div className='mt-auto'>

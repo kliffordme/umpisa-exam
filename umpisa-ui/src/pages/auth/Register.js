@@ -40,7 +40,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/user/register', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_ROUTE}api/user/register`, formData);
       console.log(response.data);
 
       // Assuming the response includes the JWT token

@@ -5,23 +5,27 @@ import { ReactComponent as Users } from '../../assets/icons/users.svg';
 import { ReactComponent as Authors } from '../../assets/icons/author.svg';
 import { ReactComponent as Downloads } from '../../assets/icons/download.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllBooks, setBooksData } from '../../redux/actions/action';
+import { getAllBooks, getAllUsers, setBooksData } from '../../redux/actions/action';
 import axios from 'axios'
-import { selectBooks } from '../../redux/selectors/selectors';
+import { selectBooks, selectUsersCount } from '../../redux/selectors/selectors';
 
 export const Home = () => {
   const dispatch = useDispatch()
   const books = useSelector(selectBooks)
+  const users = useSelector(selectUsersCount)
 
   const [data, setData] = useState([])
+  const [userCount, setUserCount] = useState(0)
 
   useEffect(()=>{
     dispatch(getAllBooks())
+    dispatch(getAllUsers())
   },[])
 
   useEffect(()=>{
     setData(books)
-  }, [books])
+    setUserCount(users)
+  }, [books, users])
 
   const currentPost = data.slice(0, 4)
 
@@ -51,7 +55,7 @@ export const Home = () => {
                   Total Users: 
                 </span>
                 <br/>
-                23
+                {userCount}
               </div>
               <Users style={{ width: '50px', height: '50px' }} />
             </div>
@@ -65,7 +69,7 @@ export const Home = () => {
                   Authors: 
                 </span>
                 <br/>
-                36
+                {books.length}
               </div>
               <Authors style={{ width: '50px', height: '50px' }} />
             </div>
@@ -79,7 +83,7 @@ export const Home = () => {
                   Downloads: 
                 </span>
                 <br/>
-                377
+                0
               </div>
               <Downloads style={{ width: '50px', height: '50px' }} />
             </div>
@@ -96,7 +100,7 @@ export const Home = () => {
             <div className='featured-container shadow bg-white rounded'>
               <div className='p-3'>
                   <div className='d-flex'>
-                    <img src={`http://localhost:3000/${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
+                    <img src={`${process.env.REACT_APP_API_ROUTE}${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
                     <div>
                       <div className='featured-card'> {book.title}</div>
                       <div className='featured-card'>Rating: {book.rating}</div>
@@ -116,7 +120,7 @@ export const Home = () => {
             <div className='featured-container shadow bg-white rounded'>
               <div className='p-3'>
                   <div className='d-flex'>
-                    <img src={`http://localhost:3000/${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
+                    <img src={`${process.env.REACT_APP_API_ROUTE}${book.image}`} style={{width: '35%', height:'60%', marginRight: '10px'}} alt={book.title} />
                     <div>
                       <div className='featured-card'> {book.title}</div>
                       <div className='featured-card'>Rating: {book.rating}</div>
