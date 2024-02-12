@@ -28,11 +28,7 @@ const Login = () => {
       navigate('/home');
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 401) {
-          setError('Invalid email or password');
-        } else {
-          setError('An error occurred. Please try again later.');
-        }
+        setError('Invalid email or password');
       } else {
         setError('An error occurred. Please check your internet connection.');
       }
@@ -45,7 +41,7 @@ const Login = () => {
         <div className="col-md-6">
           <div className="card mt-5">
             <div className="card-header">
-              <h2 className="text-center">Login</h2>
+              <h2 style={{color: 'rgb(71, 71, 131)'}} className="text-center">Welcome to BookVerse</h2>
             </div>
             <div className="card-body">
               <form onSubmit={handleLogin}>
