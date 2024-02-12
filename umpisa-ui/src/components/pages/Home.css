@@ -4,7 +4,28 @@
 
 .analytics-cards{
     padding: 10px;
-    margin: 10px;
+    margin: 20px;
     width: 200px;
     height: 110px
+}
+
+.title{
+    color: rgb(71, 71, 131); /* Blue title color */
+}
+
+.large-card{
+    padding: 10px;
+    margin: 20px;
+    height: 60vh
+}
+
+.featured-container{
+    width: 13vw;
+    height: 16vh;
+}
+
+.featured-card{
+    color: rgb(71, 71, 131); /* Blue title color */
+    font-size: 12px;
+    font-weight: 800;
 }

@@ -1,0 +1,17 @@
+.title{
+    color: rgb(71, 71, 131); /* Blue title color */
+}
+
+.book-container{
+    width: 25vw;
+    height: 60vh;
+    overflow-x: auto; /* Enable horizontal scrolling when content exceeds container width */
+}
+
+.upload-container{
+    height: 50vh;
+}
+
+.image{
+    width: 50px;
+}
